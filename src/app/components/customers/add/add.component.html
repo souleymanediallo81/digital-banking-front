@@ -1,0 +1,43 @@
+
+
+<div class="container m-3">
+    <div class="card" *ngIf="customerFormGroup">
+        <div class="card-header">
+            <h2>
+                Ajout d'un Client
+            </h2>
+        </div>
+
+        <div class="card-body">
+            <form [formGroup]="customerFormGroup" (ngSubmit)="save()">
+                <div class="m-3">
+                    <label for="name">Nom</label>
+                    <input id="name" class="form-control" formControlName="name" type="text">
+                    <span class="alert alert-danger m-3"
+                       *ngIf="customerFormGroup.controls['name'].touched
+                       && customerFormGroup.controls['name'].errors
+                       && customerFormGroup.controls['name'].errors!['required']
+                       "
+                       >
+                            Veuillez saisir le nom du client !
+                    </span>
+                </div>
+                <div class="m-3">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" formControlName="email">
+                    <span class="alert alert-danger m-3"
+                       *ngIf="customerFormGroup.controls['email'].touched
+                       && customerFormGroup.controls['email'].errors
+                       && customerFormGroup.controls['email'].errors!['email']
+                       "
+                       >
+                        Veuillez saisir un email valide !
+                    </span>
+                </div>
+                <div class="m-3">
+                    <button [disabled]="!customerFormGroup.valid" class="btn btn-success">Valider</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

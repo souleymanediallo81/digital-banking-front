@@ -1,0 +1,113 @@
+
+
+<div class="container">
+
+   <div class="row">
+    <div class="col col-lg-6" *ngIf="accountIdFormGroup">
+        <div class="card">
+            <div class="card-header bg-dark text-light">
+                Historique des operations
+            </div>
+            <div class="card-body">
+        <form [formGroup]="accountIdFormGroup" (ngSubmit)="search()">
+            <div class="input-group m-3">
+               
+                <label class="input-group-text">Account Id</label>
+                <input type="text"  class="form-control"  formControlName="accountId"/>
+                <button class="btn btn-outline-success" ><i class="bi bi-search"></i></button>
+            </div>
+        
+        </form>
+<ng-container *ngIf="accountDetail">
+    <div class="m-3" >
+        Account Id: <strong>{{accountDetail.accountId }}</strong><br>
+        Balance:<strong>{{accountDetail.balance | number: "1.2-2"}} </strong><br>
+        <hr>
+        
+        <table class="table table-stripped">
+            <thead>
+                <th>#Id</th>
+                <th>Date</th>
+                <th>Type Op</th>
+                <th>Montant</th>
+
+                
+            </thead>
+
+            <tbody>
+                <tr  *ngFor="let op of accountDetail.accountOperationDtos">
+                   
+                    <td>{{op.id}}</td>
+                    <td>{{op.dateOperation | date: "dd-MM-yyyy HH:mm"}}</td>
+                    <td>{{op.operationType}}</td>
+                    <td class="text-end">{{op.amountOperation | number: "1.2-2"}}</td>
+                </tr>
+            </tbody>
+          
+        </table>
+        <ul class="nav nav-pulls m-3">
+            <li class="me-2" *ngFor="let item of [].constructor(accountDetail.totalPages) ;  let page=index">
+                <button [class]="currentPage==page?'btn btn-primary':'btn btn-outline-primary'" (click)="nextPage(page)">
+                    {{page}}
+                </button>
+            </li>
+        </ul>
+    </div>
+</ng-container>
+ 
+
+       
+               
+
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="col col-lg-6" *ngIf="accountId">
+       <div class="m-3 card">
+            <div class="card-header bg-dark text-light" >
+               <h4> Operations </h4>
+            </div>
+            <div class="card-body" *ngIf="operationFormGroup">
+              
+                <form [formGroup]="operationFormGroup" (ngSubmit)="saveOperation()">
+                    <div class="  form-check form-check-inline">
+                        <input type="radio" class="form-check-input" id="credit" formControlName="operationType" value="CREDIT"/>
+                        <label for="credit" class="form-check-label">Credit</label>
+                    </div>
+                    <div class="  form-check form-check-inline">
+                        <input type="radio" class="form-check-input" id="debit" formControlName="operationType" value="DEBIT"/>
+                        <label for="debit" class="form-check-label">Debit</label>
+                    </div>
+                    <div class="  form-check form-check-inline">
+                        <input type="radio" class="form-check-input" id="transfer" formControlName="operationType" value="TRANSFER"/>
+                        <label for="transfer" class="form-check-label">Transfert</label>
+                    </div>
+
+                    <div class="m-3" *ngIf="operationFormGroup.value.operationType=='TRANSFER'">
+                        <label for="accountDest">Account Dest:</label>
+                        <input id="accountDest" type="text" class="form-control" formControlName="accountDestination"/>
+                    </div>
+
+                    <div class="m-3">
+                        <label for="amount">Amount:</label>
+                        <input id="amount" type="number" class="form-control" formControlName="amount"/>
+                    </div>
+
+                    <div class="m-3">
+                        <label for="description">Description:</label>
+                        <input id="description" type="text" class="form-control" formControlName="description"/>
+                    </div>
+
+                <div class="d-grid">
+                    <button class="btn btn-success" >
+                        Save Operation
+                    </button>
+                </div>
+                </form>
+            </div>
+       </div>
+    </div>
+   </div>
+</div>
